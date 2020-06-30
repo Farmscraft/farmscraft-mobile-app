@@ -49,19 +49,6 @@ const data = [
   },
 ];
 
-
-
-function ProductItem(){
-  return(
-    
-  )
-
-}
-
-
-
-
-
 const ProductList = ({navigation, route}) => {
   return (
     <View style={{flex: 1}}>
