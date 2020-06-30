@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "588219435100",
+    "firebase_url": "https://trakola-india.firebaseio.com",
+    "project_id": "trakola-india",
+    "storage_bucket": "trakola-india.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588219435100:android:8cd66ff565d8b67ae2fe99",
+        "android_client_info": {
+          "package_name": "com.grocers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588219435100-8nmcan06c5eig4r03ub2dhgddbh50vht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grocers",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "588219435100-u2179n36oobh0njutkd890sf1cv77d54.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXf1Zx_m2mfuMCKJNqC8eRvQuEDQNtcyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588219435100-u2179n36oobh0njutkd890sf1cv77d54.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
