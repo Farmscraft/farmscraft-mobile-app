@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
 
 const SubCategory = ({item, index, onPressItem}) => {
   const {subCatID, title, subTitle, subCatImage} = item;
+
   return (
     <TouchableOpacity
       style={styles.item}
