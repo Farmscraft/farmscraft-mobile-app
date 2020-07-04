@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import LoginNavigation from '../navigation/LoginStackNavigation';
-import AuthNavigation from '../navigation/AuthNavigation';
+import AppNavigation from '../navigation/AppNavigation';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
 import {addUser} from '../redux/actions/user';
@@ -64,7 +64,7 @@ const Navigation = ({navigation}) => {
 
   return (
     <NavigationContainer>
-      {uid ? <LoginNavigation /> : <AuthNavigation shop={shop} />}
+      {uid ? <LoginNavigation /> : <AppNavigation shop={shop} />}
     </NavigationContainer>
   );
 };
