@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
     backgroundColor: 'transparent',
+    // backgroundColor: '#009688',
     flexDirection: 'row',
     height: 59,
   },

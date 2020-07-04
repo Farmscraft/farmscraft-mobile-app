@@ -17,6 +17,7 @@ const Navigation = ({navigation}) => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function onAuthStateChanged(user) {
@@ -63,7 +64,7 @@ const Navigation = ({navigation}) => {
 
   return (
     <NavigationContainer>
-      {!uid ? <LoginNavigation /> : <AuthNavigation shop={shop} />}
+      {uid ? <LoginNavigation /> : <AuthNavigation shop={shop} />}
     </NavigationContainer>
   );
 };
