@@ -132,18 +132,27 @@ android {
 
     defaultConfig {
         applicationId "com.farmscraft"
-        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        resValue "string", "build_config_package", "com.farmscraft"
     }
+
+    // dexOptions {
+    //     // Prevent OutOfMemory with MultiDex during the build phase
+    //     jumboMode true
+    //     javaMaxHeapSize "4g"
+
+    // }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            include "armeabi-v7a", "x86", "arm64-v8a"
         }
     }
     signingConfigs {
@@ -156,15 +165,73 @@ android {
     }
     buildTypes {
         debug {
+            ndk {
+                abiFilters "arm64-v8a", "armeabi-v7a", "x86"
+            }
+            applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
         }
+
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            ndk {
+                abiFilters "arm64-v8a", "armeabi-v7a"
+            }
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            matchingFallbacks = ['release', 'debug']
+             matchingFallbacks = ['release', 'debug']
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+
+        releaseStaging {
+            initWith(buildTypes.release)
+            applicationIdSuffix ".staging"
+            matchingFallbacks = ['release','debug']
+        }
+    }
+
+
+
+    flavorDimensions "default"
+    productFlavors{
+        prod{
+            applicationId "com.farmscraft"
+            resValue "string", "app_name_farmscraft", "Farmscraft"
+        }
+        stage{
+            applicationId "com.farmscraft.stage"
+            resValue "string", "app_name_farmscraft", "Farmscraft Staging"
+        }
+        dev{
+            applicationId "com.farmscraft.dev"
+            resValue "string", "app_name_farmscraft", "Farmscraft Dev"
+           
+        }
+        
+    }
+
+    variantFilter {variant->
+        if (variant.buildType.name.equals('debug')
+                && (variant.getFlavors().get(0).name.equals('prod')
+                || variant.getFlavors().get(0).name.equals('stage')
+                )) {
+            variant.ignore = true
+        }else if(variant.buildType.name.equals('release')
+                && (variant.getFlavors().get(0).name.equals('dev')
+                || variant.getFlavors().get(0).name.equals('stage')
+                )){
+            variant.ignore = true;
+        }else if(variant.buildType.name.equals('releaseStaging')
+                && (variant.getFlavors().get(0).name.equals('dev')
+                || variant.getFlavors().get(0).name.equals('prod')
+                )){
+            variant.ignore = true;
+        } else if(variant.buildType.name.equals('debugRelease')
+                && (variant.getFlavors().get(0).name.equals('dev')
+                || variant.getFlavors().get(0).name.equals('stage')
+                )){
+            variant.ignore = true;
         }
     }
 
@@ -180,7 +247,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
