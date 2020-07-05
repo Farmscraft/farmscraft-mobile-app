@@ -134,19 +134,19 @@ android {
         applicationId "com.farmscraft"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 1000
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         resValue "string", "build_config_package", "com.farmscraft"
     }
 
-    // dexOptions {
-    //     // Prevent OutOfMemory with MultiDex during the build phase
-    //     jumboMode true
-    //     javaMaxHeapSize "4g"
+    dexOptions {
+        // Prevent OutOfMemory with MultiDex during the build phase
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
 
-    // }
     splits {
         abi {
             reset()
@@ -156,11 +156,13 @@ android {
         }
     }
     signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
@@ -169,31 +171,28 @@ android {
                 abiFilters "arm64-v8a", "armeabi-v7a", "x86"
             }
             applicationIdSuffix ".debug"
-            signingConfig signingConfigs.debug
         }
 
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             ndk {
-                abiFilters "arm64-v8a", "armeabi-v7a"
+                abiFilters "arm64-v8a", "armeabi-v7a", "x86"
             }
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
-             matchingFallbacks = ['release', 'debug']
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
 
         releaseStaging {
             initWith(buildTypes.release)
             applicationIdSuffix ".staging"
-            matchingFallbacks = ['release','debug']
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 
-
-
     flavorDimensions "default"
+
     productFlavors{
         prod{
             applicationId "com.farmscraft"
@@ -206,7 +205,6 @@ android {
         dev{
             applicationId "com.farmscraft.dev"
             resValue "string", "app_name_farmscraft", "Farmscraft Dev"
-           
         }
         
     }
@@ -225,11 +223,6 @@ android {
         }else if(variant.buildType.name.equals('releaseStaging')
                 && (variant.getFlavors().get(0).name.equals('dev')
                 || variant.getFlavors().get(0).name.equals('prod')
-                )){
-            variant.ignore = true;
-        } else if(variant.buildType.name.equals('debugRelease')
-                && (variant.getFlavors().get(0).name.equals('dev')
-                || variant.getFlavors().get(0).name.equals('stage')
                 )){
             variant.ignore = true;
         }
