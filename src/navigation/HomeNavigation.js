@@ -45,8 +45,8 @@ const ROUTES = {
   [HOME]: HomeScreen,
   [CATEGORIES]: CategoryScreen,
   [CART]: CartScreen,
-  [WISHLIST]: UserAccountScreen,
-  [ACCOUNT]: WishlistScreen,
+  [WISHLIST]: WishlistScreen,
+  [ACCOUNT]: UserAccountScreen,
 };
 
 const styles = StyleSheet.create({
