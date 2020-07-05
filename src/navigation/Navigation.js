@@ -64,7 +64,7 @@ const Navigation = ({navigation}) => {
 
   return (
     <NavigationContainer>
-      {uid ? <LoginNavigation /> : <AuthNavigation shop={shop} />}
+      {!uid ? <LoginNavigation /> : <AuthNavigation shop={shop} />}
     </NavigationContainer>
   );
 };
