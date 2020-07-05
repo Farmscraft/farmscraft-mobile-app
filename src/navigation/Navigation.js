@@ -64,7 +64,7 @@ const Navigation = ({navigation}) => {
 
   return (
     <NavigationContainer>
-      {uid ? <LoginNavigation /> : <AppNavigation shop={shop} />}
+      {!uid ? <LoginNavigation /> : <AppNavigation shop={shop} />}
     </NavigationContainer>
   );
 };
