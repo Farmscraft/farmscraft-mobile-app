@@ -45,12 +45,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069936810533:android:7d404dea469a48187c3dcc",
+        "mobilesdk_app_id": "1:1069936810533:android:174b5b1e153afade7c3dcc",
         "android_client_info": {
-          "package_name": "com.farmscraft.dev"
+          "package_name": "com.farmscraft.dev.debug"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1069936810533-rttberelrojprg6g32a3r9u9drf9o8sb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farmscraft.dev.debug",
+            "certificate_hash": "9e39df710d706e2328884bf8597b98d49fa817c2"
+          }
+        },
         {
           "client_id": "1069936810533-omq8kaqlpc94uqsno2rm35d590qnrtr0.apps.googleusercontent.com",
           "client_type": 3
