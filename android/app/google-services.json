@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1069936810533-9ffpbpmarfndtgb3qk9viqohr80sbovc.apps.googleusercontent.com",
+          "client_id": "1069936810533-vsn6ndi1j23acp4fsdrvrcmseub0ec5j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.farmscraft",
-            "certificate_hash": "cb11856be5cd86453139cd76cd50fc4a48643185"
+            "certificate_hash": "dd77aca8f633b4438ea195e74cc06748de6fcc18"
           }
         },
         {
@@ -45,20 +45,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069936810533:android:174b5b1e153afade7c3dcc",
+        "mobilesdk_app_id": "1:1069936810533:android:e7324771975a812f7c3dcc",
         "android_client_info": {
-          "package_name": "com.farmscraft.dev.debug"
+          "package_name": "com.farmscraft.debug"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "1069936810533-rttberelrojprg6g32a3r9u9drf9o8sb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.farmscraft.dev.debug",
-            "certificate_hash": "9e39df710d706e2328884bf8597b98d49fa817c2"
-          }
-        },
         {
           "client_id": "1069936810533-omq8kaqlpc94uqsno2rm35d590qnrtr0.apps.googleusercontent.com",
           "client_type": 3
