@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1069936810533-vsn6ndi1j23acp4fsdrvrcmseub0ec5j.apps.googleusercontent.com",
+          "client_id": "1069936810533-33eik0se6qqtsobdv6o8umd11bfc2pbf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.farmscraft",
-            "certificate_hash": "dd77aca8f633b4438ea195e74cc06748de6fcc18"
+            "certificate_hash": "643a5e13e30ccdcd8c314e77c9e29a08cc31ffe4"
           }
         },
         {
@@ -74,9 +74,38 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069936810533:android:dd4811558bdcdca27c3dcc",
+        "mobilesdk_app_id": "1:1069936810533:android:5d8d9b49694c9d227c3dcc",
         "android_client_info": {
-          "package_name": "com.farmscraft.stage"
+          "package_name": "com.farmscraft.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069936810533-omq8kaqlpc94uqsno2rm35d590qnrtr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqjp6QIfW2lcTddE82fRh67BV2jbx-cFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069936810533-omq8kaqlpc94uqsno2rm35d590qnrtr0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069936810533:android:eb604d2ff7d07b4a7c3dcc",
+        "android_client_info": {
+          "package_name": "com.farmscraft.dev.debug"
         }
       },
       "oauth_client": [
