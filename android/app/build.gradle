@@ -124,6 +124,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    flavorDimensions "default"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -153,11 +154,23 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        dev {
+            storeFile file('farmscraftdev.keystore')
+            storePassword "farmscraft"
+            keyAlias "farmscraftdev"
+            keyPassword "farmscraft"
+        }
+        release {
+            storeFile file('farmscraftrelease.keystore')
+            storePassword "farmscraft"
+            keyAlias "farmscraftrelease"
+            keyPassword "farmscraft"
+        }
     }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            resValue "string", "CodePushDeploymentKey", '""'
             applicationIdSuffix ".debug"
         }
         release {
@@ -169,11 +182,21 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             // resValue "string", "CodePushDeploymentKey", '"PA18inpKAvJIGJLZoeqpStFO51ezoeoiyxjqP"'
         }
-        releasestaging {
-            initWith release
-            applicationIdSuffix ".releasestaging"
-            matchingFallbacks =  ['release']
-            // resValue "string", "CodePushDeploymentKey", '"0eiqGKcKPf3EHxq64UDDrATcy47jh-Ci13lJ6"'
+    }
+
+    productFlavors {
+        dev {
+            minSdkVersion rootProject.ext.minSdkVersion
+            applicationId 'com.farmscraft.dev'
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            resValue "string", "build_config_package", "com.farmscraft"
+            signingConfig signingConfigs.dev
+        }
+        prod {
+            minSdkVersion rootProject.ext.minSdkVersion
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            resValue "string", "build_config_package", "com.farmscraft"
+            signingConfig signingConfigs.release
         }
     }
 
