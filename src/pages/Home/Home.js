@@ -110,7 +110,9 @@ const data = [
 
 const Home = props => {
   const [state, setState] = useState({});
-  const [banner, setBanner] = useState({});
+  const [banners, setBanner] = useState({
+    banner: [],
+  });
 
   useEffect(() => {
     getHomeData()
@@ -149,7 +151,7 @@ const Home = props => {
   return (
     <ScrollView>
       <View style={styles.bannerWrapper}>
-        <Banner imageStyle={{height: 150}} />
+        <Banner options={banners.banner} imageStyle={{height: 150}} />
       </View>
       <FlatList
         data={Object.values(state)}

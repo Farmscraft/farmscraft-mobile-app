@@ -20,8 +20,7 @@ export const Slide = React.memo(
   },
 );
 
-const Banner = React.memo(({logos, setRef, imageStyle}) => {
-  const options = logos || [groceryImage1, groceryImage2];
+const Banner = React.memo(({options = [], setRef, imageStyle}) => {
   return (
     <View style={styles.sliderContainer}>
       <Swiper
@@ -36,10 +35,10 @@ const Banner = React.memo(({logos, setRef, imageStyle}) => {
         ref={setRef}
         autoplay={true}
         autoplayTimeout={3}>
-        {options.map((item, index) => {
+        {options.map(({image}, index) => {
           return (
             <Slide
-              image={item}
+              image={image}
               key={index.toString()}
               imageStyle={imageStyle}
             />
