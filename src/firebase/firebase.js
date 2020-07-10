@@ -1,5 +1,11 @@
 import firestore from '@react-native-firebase/firestore';
 
+export const getHomeData = () => {
+  return firestore()
+    .collection('home')
+    .get();
+};
+
 export const addAddress = ({uid, address, addressId}) => {
   const userRef = firestore()
     .collection('users')
