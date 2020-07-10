@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {addToWishlist} from '../../redux/actions/orders';
 
 import CartItem from '../Common/CartItem/CartItem';
+import CheckOutButton from '../Common/CartItem/CheckOutButton';
 
 const data = [
   {
@@ -56,7 +57,7 @@ const data = [
   },
 ];
 
-const ProductList = ({navigation, route}) => {
+const CartScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
 
   const handleOnSubstract = (item, value) => {};
@@ -84,8 +85,9 @@ const ProductList = ({navigation, route}) => {
         )}
         keyExtractor={item => String(item.variantID)}
       />
+      <CheckOutButton />
     </View>
   );
 };
 
-export default ProductList;
+export default CartScreen;

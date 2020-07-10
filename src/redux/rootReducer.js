@@ -5,8 +5,8 @@ import orders from './reducers/orders';
 import shop from './reducers/shop';
 
 export default combineReducers({
-  cart,
-  user,
-  orders,
-  shop,
+  Cart: cart,
+  user: user,
+  orders: orders,
+  shop: shop,
 });
