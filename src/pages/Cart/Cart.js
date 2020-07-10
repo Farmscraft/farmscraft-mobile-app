@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, FlatList, ActivityIndicator} from 'react-native';
+
 import {useSelector, useDispatch} from 'react-redux';
+import {addToWishlist} from '../../redux/actions/orders';
 
 import CartItem from '../Common/CartItem/CartItem';
-
-import {addToWishlist} from '../../redux/actions/orders';
 
 const data = [
   {
@@ -79,9 +79,10 @@ const ProductList = ({navigation, route}) => {
             handleOnSubstract={handleOnSubstract}
             handleOnAdd={handleOnAdd}
             onPress={onPressHandler}
+            key={item.variadID}
           />
         )}
-        keyExtractor={item => item.variadID}
+        keyExtractor={item => String(item.variantID)}
       />
     </View>
   );

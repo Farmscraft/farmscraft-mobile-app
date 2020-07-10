@@ -3,24 +3,23 @@ import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // common header
 import Header from '../components/header/header';
-
 // all tabs
 import HomeScreen from '../pages/Home/Home';
 import CategoryScreen from '../pages/Category/category';
 import CartScreen from '../pages/Cart/Cart';
 import UserAccountScreen from '../pages/Account/Account';
 import WishlistScreen from '../pages/Offers/Offers';
-
 // other screen
-
 import ProductList from '../pages/Product/ProductList';
 import EditProfile from '../pages/Account/EditProfile';
 import Address from '../pages/Address/AddressDetails';
+
+// CartIconWithBadge
+import CartIconWithBadge from '../pages/CartBadge/CartBadge';
 
 import {
   BOTTOM_TABS,
@@ -86,9 +85,13 @@ const BottomNavigation = ({navigation, route}) => {
           key={el}
           options={{
             tabBarLabel: el,
-            tabBarIcon: ({color, size}) => (
-              <Icon name={ICON[el]} size={size} color={color} />
-            ),
+            tabBarIcon: ({color, size}) => {
+              return el === 'Cart' ? (
+                <CartIconWithBadge name={ICON[el]} size={size} color={color} />
+              ) : (
+                <Icon name={ICON[el]} size={size} color={color} />
+              );
+            },
           }}
           name={el}
           component={ROUTES[el]}

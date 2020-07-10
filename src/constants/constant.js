@@ -90,7 +90,7 @@ export const accountItems = [
     key: 'orders',
     title: 'My Orders',
     subTitle: 'Check your order status',
-    icon: 'local_shipping',
+    icon: 'local-shipping',
   },
   {
     id: 2,
@@ -104,7 +104,7 @@ export const accountItems = [
     key: 'cards',
     title: 'Saved Cards & Credit',
     subTitle: 'Save your cards for one click checkout',
-    icon: 'credit_card',
+    icon: 'credit-card',
   },
   {
     id: 4,
@@ -118,7 +118,7 @@ export const accountItems = [
     key: 'support',
     title: 'Help & Support',
     subTitle: 'Have a question? We are here to help',
-    icon: 'help_outline',
+    icon: 'help-outline',
   },
 ];
 
