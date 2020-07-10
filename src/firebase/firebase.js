@@ -1,5 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 
+export const getSubCategory = ({id}) => {
+  return firestore()
+    .collection('subCategories')
+    .doc(id)
+    .get();
+};
+
 export const getHomeData = () => {
   return firestore()
     .collection('home')
