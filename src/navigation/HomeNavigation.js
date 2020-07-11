@@ -12,7 +12,7 @@ import HomeScreen from '../pages/Home/Home';
 import CategoryScreen from '../pages/Category/category';
 import CartScreen from '../pages/Cart/Cart';
 import UserAccountScreen from '../pages/Account/Account';
-import WishlistScreen from '../pages/Offers/Offers';
+import WishlistScreen from '../pages/Wishlist/MyWishlist';
 // other screen
 import ProductList from '../pages/Product/ProductList';
 import EditProfile from '../pages/Account/EditProfile';

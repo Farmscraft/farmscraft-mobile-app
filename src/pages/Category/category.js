@@ -1,29 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  Text,
 } from 'react-native';
 
-const data = [
-  {
-    categoryID: 120,
-    title: 'Lifestyle',
-    catImage: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-  },
-  {
-    categoryID: 121,
-    title: 'Fashion',
-    catImage: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-  },
-  {
-    categoryID: 122,
-    title: 'Grocery',
-    catImage: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-  },
-];
+import {getHomeData} from '../../firebase/firebase';
 
 const CategoryItem = ({item, onPress}) => {
   const {categoryID, title, catImage} = item;
@@ -38,20 +23,54 @@ const CategoryItem = ({item, onPress}) => {
 };
 
 const Category = props => {
+  const [banners, setCategoryBanner] = useState([]);
+
   const onPressHandler = item => {
     props.navigation.navigate('home', {category: item});
   };
+
+  useEffect(() => {
+    getHomeData()
+      .then(snapshot => {
+        const response = [];
+        snapshot.forEach(snap => {
+          if (snap.id !== 'banners') {
+            const {catImage, categoryID, title} = snap.data();
+            response.push({catImage, categoryID, title});
+          }
+        });
+        setCategoryBanner(response);
+      })
+      .catch(err => {});
+  }, []);
+
   return (
     <ScrollView>
-      <View style={styles.scrollView}>
-        {data.map(item => (
-          <CategoryItem
-            item={item}
-            onPress={onPressHandler}
-            key={item['categoryID']}
-          />
-        ))}
-      </View>
+      {banners.length ? (
+        <View style={styles.scrollView}>
+          {banners.map(item => (
+            <CategoryItem
+              item={item}
+              onPress={onPressHandler}
+              key={item['categoryID']}
+            />
+          ))}
+        </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            marginHorizontal: 15,
+          }}>
+          <Text style={{fontSize: 14, color: 'black', lineHeight: 18}}>
+            Your favourite items will display here. Add some item from product
+            liting page
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 };

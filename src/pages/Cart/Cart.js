@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, ActivityIndicator} from 'react-native';
+import {View, FlatList, ActivityIndicator, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../Common/CartItem/CartItem';
 import CheckOutButton from '../Common/CartItem/CheckOutButton';
@@ -58,28 +58,45 @@ const CartScreen = ({navigation, route}) => {
 
   return (
     <View style={{flex: 1}}>
-      <FlatList
-        ListEmptyComponent={() => (
-          <ActivityIndicator size="large" color="red" />
-        )}
-        data={Object.values(carts)}
-        renderItem={({item, index}) => (
-          <CartItem
-            item={item}
-            index={index}
-            handleOnSubstract={handleOnSubstract}
-            handleOnAdd={handleOnAdd}
-            onPress={onPressHandler}
-            key={item.variadID}
+      {Object.values(carts).length ? (
+        <React.Fragment>
+          <FlatList
+            ListEmptyComponent={() => (
+              <ActivityIndicator size="large" color="red" />
+            )}
+            data={Object.values(carts)}
+            renderItem={({item, index}) => (
+              <CartItem
+                item={item}
+                index={index}
+                handleOnSubstract={handleOnSubstract}
+                handleOnAdd={handleOnAdd}
+                onPress={onPressHandler}
+                key={item.variadID}
+              />
+            )}
+            keyExtractor={item => String(item.variantID)}
           />
-        )}
-        keyExtractor={item => String(item.variantID)}
-      />
-      <CheckOutButton
-        totalAmount={totalFCPrice}
-        savedAmount={savedAmount}
-        onPress={handleCheckout}
-      />
+          <CheckOutButton
+            totalAmount={totalFCPrice}
+            savedAmount={savedAmount}
+            onPress={handleCheckout}
+          />
+        </React.Fragment>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            marginHorizontal: 15,
+          }}>
+          <Text style={{fontSize: 14, color: 'black', lineHeight: 18}}>
+            Cart is empty. Add some item from product liting page
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
