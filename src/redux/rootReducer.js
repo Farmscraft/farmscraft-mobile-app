@@ -5,7 +5,7 @@ import orders from './reducers/orders';
 import shop from './reducers/shop';
 
 export default combineReducers({
-  Cart: cart,
+  CartReducer: cart,
   user: user,
   orders: orders,
   shop: shop,

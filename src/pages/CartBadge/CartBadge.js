@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {isNull} from '../../helpers/helpers';
 
 const styles = StyleSheet.create({
   bagde: {
@@ -39,9 +40,17 @@ function IconWithBadge({name, badgeCount, color, size}) {
 }
 
 function CartIconWithBadge(props) {
-  //   const {cartList} = useSelector(state => state.HomeReducer);
+  const {carts} = useSelector(state => state.CartReducer);
 
-  return <IconWithBadge {...props} badgeCount={1} />;
+  const getBadgeCount = () => {
+    let badgeCount = 0;
+    if (!isNull(carts)) {
+      badgeCount = Object.keys(carts).length;
+    }
+    return badgeCount;
+  };
+
+  return <IconWithBadge {...props} badgeCount={getBadgeCount()} />;
 }
 
 export default CartIconWithBadge;

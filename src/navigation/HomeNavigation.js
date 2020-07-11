@@ -21,6 +21,38 @@ import Address from '../pages/Address/AddressDetails';
 // CartIconWithBadge
 import CartIconWithBadge from '../pages/CartBadge/CartBadge';
 
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const HomeStack = createStackNavigator();
+
+const HomeStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name={'Home'}
+      component={HomeScreen}
+      options={props => ({
+        header: () => getHeader(props),
+      })}
+    />
+
+    <HomeStack.Screen
+      name="productList"
+      component={ProductList}
+      options={{
+        header: props => (
+          <Header
+            title={'Product'}
+            backIcon={true}
+            searchIcon={true}
+            {...props}
+          />
+        ),
+      }}
+    />
+  </HomeStack.Navigator>
+);
+
 import {
   BOTTOM_TABS,
   HOME,
@@ -41,7 +73,7 @@ const ICON = {
 };
 
 const ROUTES = {
-  [HOME]: HomeScreen,
+  [HOME]: HomeStackScreen,
   [CATEGORIES]: CategoryScreen,
   [CART]: CartScreen,
   [WISHLIST]: WishlistScreen,
@@ -67,9 +99,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 const BottomNavigation = ({navigation, route}) => {
   return (
@@ -164,21 +193,6 @@ function HomeNavigation() {
         options={props => ({
           header: () => getHeader(props),
         })}
-      />
-
-      <Stack.Screen
-        name="productList"
-        component={ProductList}
-        options={{
-          header: props => (
-            <Header
-              title={'Product'}
-              backIcon={true}
-              searchIcon={true}
-              {...props}
-            />
-          ),
-        }}
       />
 
       <Stack.Screen

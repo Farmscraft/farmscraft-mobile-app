@@ -1,23 +1,15 @@
 import {actionTypes} from '../actions/cart';
+import {addItem, removeItem} from '../../helpers/helpers';
 
 const initState = {
   carts: {},
-};
-
-const addToCart = (prevCart = {}, currentItem) => {
-  prevCart[currentItem.variantID] = {...currentItem};
-  return prevCart;
-};
-
-const removeFromCart = (prevCart = {}, currentItem) => {
-  delete prevCart[currentItem.variantID];
-  return prevCart;
+  wishList: {},
 };
 
 const cart = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TO_CART: {
-      let carts = addToCart(state.carts, action.payload.item);
+      let carts = addItem(state.carts, action.payload.item);
       return {
         ...state,
         carts: carts,
@@ -25,15 +17,34 @@ const cart = (state = initState, action) => {
     }
 
     case actionTypes.REMOVE_FROM_CART: {
-      let carts = removeFromCart(state.carts, action.payload.item);
+      let carts = removeItem(state.carts, action.payload.item);
       return {
         ...state,
         carts: carts,
       };
     }
-
     case actionTypes.CLEAR_CART:
-      return initState;
+      return {
+        ...state,
+        carts: {},
+      };
+
+    case actionTypes.ADD_TO_WISHLIST: {
+      let wishList = addItem(state.wishList, action.payload.item);
+      return {
+        ...state,
+        wishList: wishList,
+      };
+    }
+
+    case actionTypes.REMOVE_FROM_WISHLIST: {
+      let wishList = removeItem(state.wishList, action.payload.item);
+      return {
+        ...state,
+        wishList: wishList,
+      };
+    }
+
     default:
       return state;
   }

@@ -1,69 +1,66 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, FlatList, ActivityIndicator} from 'react-native';
+import _ from 'lodash';
 import {useSelector, useDispatch} from 'react-redux';
-
 import ProductItem from '../Common/ProductItem/ProductItem';
+import {getSubCategoryData} from '../../firebase/firebase';
 
-import {addToWishlist} from '../../redux/actions/orders';
-
-const data = [
-  {
-    variantID: 1234,
-    productID: 100,
-    isActive: true,
-    defImage: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-    images: [
-      {
-        imageID: 143,
-        imageUrl: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-      },
-    ],
-
-    // base detail
-    title: 'Title',
-    subTitle: 'SubTitle',
-    brandName: '',
-    category: 'Women',
-    subCategory: '',
-    style: '',
-    availabeVariant: 2,
-
-    // rating
-    rating: '3.5',
-    ratedBy: 10,
-    reviews: [{date: '10/04/2020', name: 'abc', rating: 5, description: ''}],
-
-    // moq
-
-    moq: 1, // 500 grams //500 pcs
-    unit: 'pcs', // kg//grams
-    moqType: 'text', // dropdown
-    moqOptions: [
-      {
-        moq: 10,
-        price: 1000,
-        label: '10',
-      },
-    ], // may be in future
-
-    // pricing
-    mrpPrice: 199,
-    sellerPrice: 72,
-    fcPrice: 75,
-
-    //dynamic property
-    orderQuantity: 1,
-  },
-];
+import {
+  addToCart,
+  removeFromCart,
+  addToWishlist,
+} from '../../redux/actions/cart';
+import {isNull} from '../../helpers/helpers';
 
 const ProductList = ({navigation, route}) => {
+  const {subCatItem} = route.params;
+  const [subCatData, setSubCatData] = useState([]);
+
+  useEffect(() => {
+    getSubCategoryData(subCatItem.subCatID)
+      .then(snapshot => {
+        let data = [];
+        snapshot.forEach(snap => {
+          data.push(snap.data());
+        });
+
+        setSubCatData(data);
+      })
+      .catch(err => {});
+  }, [subCatItem.subCatID]);
+
   const dispatch = useDispatch();
 
-  const handleOnSubstract = (item, value) => {};
+  const handleOnSubstract = (item, value = 0) => {
+    const findIndex = _.findIndex(subCatData, {variantID: item.variantID});
+    if (findIndex !== -1 && value > 0) {
+      subCatData[findIndex]['orderQuantity'] = value - 1;
+      setSubCatData(subCatData);
+      dispatch(addToCart(subCatData[findIndex]));
+    }
 
-  const handleOnAdd = (item, value) => {};
+    if (subCatData[findIndex]['orderQuantity'] == 0) {
+      dispatch(removeFromCart(subCatData[findIndex]));
+    }
+  };
 
-  const checkFavorite = item => {};
+  const handleOnAdd = (item, value = 0) => {
+    const findIndex = _.findIndex(subCatData, {variantID: item.variantID});
+    if (findIndex !== -1) {
+      subCatData[findIndex]['orderQuantity'] = value + 1;
+      setSubCatData(subCatData);
+      dispatch(addToCart(subCatData[findIndex]));
+    }
+  };
+
+  const {wishList} = useSelector(state => state.CartReducer);
+  const checkFavorite = item => {
+    let fav = false;
+    if (!isNull(wishList) && !isNull(wishList[item.variantID])) {
+      fav = true;
+    }
+    return fav;
+  };
 
   const onPressHandler = item => {};
 
@@ -73,7 +70,7 @@ const ProductList = ({navigation, route}) => {
         ListEmptyComponent={() => (
           <ActivityIndicator size="large" color="red" />
         )}
-        data={data}
+        data={subCatData}
         renderItem={({item, index}) => (
           <ProductItem
             item={item}
@@ -83,9 +80,10 @@ const ProductList = ({navigation, route}) => {
             handleOnAdd={handleOnAdd}
             markedFavorite={checkFavorite(item)}
             onPress={onPressHandler}
+            key={item.variantID}
           />
         )}
-        keyExtractor={item => item.variadID}
+        keyExtractor={item => String(item.variantID)}
       />
     </View>
   );

@@ -34,3 +34,11 @@ export const getAddress = async ({userId, id}) => {
 
   return userRef.collection('address').get();
 };
+
+export const getSubCategoryData = subCatID => {
+  const subCatRef = firestore()
+    .collection('subCategories')
+    .doc(subCatID);
+
+  return subCatRef.collection('items').get();
+};

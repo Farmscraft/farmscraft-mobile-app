@@ -1,70 +1,60 @@
 import React from 'react';
 import {View, FlatList, ActivityIndicator} from 'react-native';
-
 import {useSelector, useDispatch} from 'react-redux';
-import {addToWishlist} from '../../redux/actions/orders';
-
 import CartItem from '../Common/CartItem/CartItem';
 import CheckOutButton from '../Common/CartItem/CheckOutButton';
-
-const data = [
-  {
-    variantID: 1234,
-    productID: 100,
-    isActive: true,
-    defImage: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-    images: [
-      {
-        imageID: 143,
-        imageUrl: 'https://dummyimage.com/80x80/000/fff&text=No+Image',
-      },
-    ],
-
-    // base detail
-    title: 'Title',
-    subTitle: 'SubTitle',
-    brandName: '',
-    category: 'Women',
-    subCategory: '',
-    style: '',
-    availabeVariant: 2,
-
-    // rating
-    rating: '3.5',
-    ratedBy: 10,
-    reviews: [{date: '10/04/2020', name: 'abc', rating: 5, description: ''}],
-
-    // moq
-
-    moq: 1, // 500 grams //500 pcs
-    unit: 'pcs', // kg//grams
-    moqType: 'text', // dropdown
-    moqOptions: [
-      {
-        moq: 10,
-        price: 1000,
-        label: '10',
-      },
-    ], // may be in future
-
-    // pricing
-    mrpPrice: 199,
-    sellerPrice: 72,
-    fcPrice: 75,
-
-    //dynamic property
-    orderQuantity: 1,
-  },
-];
+import {addToCart, removeFromCart} from '../../redux/actions/cart';
+import {isNull} from '../../helpers/helpers';
+import _ from 'lodash';
 
 const CartScreen = ({navigation, route}) => {
+  const {carts} = useSelector(state => state.CartReducer);
   const dispatch = useDispatch();
 
-  const handleOnSubstract = (item, value) => {};
+  const handleOnSubstract = (item, value) => {
+    item['orderQuantity'] = value - 1;
+    if (item['orderQuantity'] > 0) {
+      dispatch(addToCart(item));
+    }
+    if (item['orderQuantity'] == 0) {
+      dispatch(removeFromCart(item));
+    }
+  };
 
-  const handleOnAdd = (item, value) => {};
+  const handleOnAdd = (item, value = 0) => {
+    item['orderQuantity'] = value + 1;
+    dispatch(addToCart(item));
+  };
+
+  const getAggregatedPrices = () => {
+    let prices = {
+      totalFCPrice: 0,
+      savedAmount: 0,
+      totalMRPPrice: 0,
+    };
+    const values = Object.values(carts);
+    if (!isNull(values)) {
+      _.forEach(values, item => {
+        prices.totalFCPrice =
+          prices.totalFCPrice +
+          parseInt(item['fcPrice']) * parseInt(item['orderQuantity']);
+        prices.totalMRPPrice =
+          prices.totalMRPPrice +
+          parseInt(item['mrpPrice']) * parseInt(item['orderQuantity']);
+      });
+    }
+    if (!isNull(values)) {
+      prices.savedAmount = prices.totalMRPPrice - prices.totalFCPrice;
+    }
+
+    return prices;
+  };
 
   const onPressHandler = item => {};
+
+  const handleCheckout = () => {};
+
+  const {totalFCPrice, savedAmount, totalMRPPrice} = getAggregatedPrices();
 
   return (
     <View style={{flex: 1}}>
@@ -72,7 +62,7 @@ const CartScreen = ({navigation, route}) => {
         ListEmptyComponent={() => (
           <ActivityIndicator size="large" color="red" />
         )}
-        data={data}
+        data={Object.values(carts)}
         renderItem={({item, index}) => (
           <CartItem
             item={item}
@@ -85,7 +75,11 @@ const CartScreen = ({navigation, route}) => {
         )}
         keyExtractor={item => String(item.variantID)}
       />
-      <CheckOutButton />
+      <CheckOutButton
+        totalAmount={totalFCPrice}
+        savedAmount={savedAmount}
+        onPress={handleCheckout}
+      />
     </View>
   );
 };

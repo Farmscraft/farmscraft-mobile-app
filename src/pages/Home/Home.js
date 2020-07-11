@@ -31,7 +31,7 @@ const Home = props => {
   }, []);
 
   const onPressItemHandler = item => {
-    props.navigation.navigate('productList', {item: item});
+    props.navigation.navigate('productList', {subCatItem: item});
   };
 
   const renderItem = ({item, index}) => {
