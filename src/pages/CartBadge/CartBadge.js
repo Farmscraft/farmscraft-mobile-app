@@ -41,7 +41,7 @@ function IconWithBadge({name, badgeCount, color, size}) {
 function CartIconWithBadge(props) {
   //   const {cartList} = useSelector(state => state.HomeReducer);
 
-  return <IconWithBadge {...props} badgeCount={3} />;
+  return <IconWithBadge {...props} badgeCount={1} />;
 }
 
 export default CartIconWithBadge;

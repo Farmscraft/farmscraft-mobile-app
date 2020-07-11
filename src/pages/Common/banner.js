@@ -12,7 +12,7 @@ export const Slide = React.memo(
       <View style={[styles.slideIconContainer, container]}>
         <FastImage
           style={[styles.slideIconSize, imageStyle]}
-          source={image}
+          source={{uri: image}}
           resizeMode={'stretch'}
         />
       </View>
@@ -39,7 +39,7 @@ const Banner = React.memo(({logos, setRef, imageStyle}) => {
         {options.map((item, index) => {
           return (
             <Slide
-              image={item}
+              image={item.url || item.image}
               key={index.toString()}
               imageStyle={imageStyle}
             />
