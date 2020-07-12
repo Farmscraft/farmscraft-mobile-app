@@ -3,9 +3,10 @@ import {View, FlatList, ActivityIndicator, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../Common/CartItem/CartItem';
 import CheckOutButton from '../Common/CartItem/CheckOutButton';
-import {addToCart, removeFromCart} from '../../redux/actions/cart';
+import {addToCart, removeFromCart, clearCart} from '../../redux/actions/cart';
 import {isNull} from '../../helpers/helpers';
 import _ from 'lodash';
+import {placeOrder} from '../../firebase/firebase';
 
 const CartScreen = ({navigation, route}) => {
   const {carts} = useSelector(state => state.CartReducer);
@@ -52,7 +53,27 @@ const CartScreen = ({navigation, route}) => {
 
   const onPressHandler = item => {};
 
-  const handleCheckout = () => {};
+  const handleCheckout = () => {
+    const values = Object.values(carts);
+    if (!isNull(values)) {
+      placeOrder(values)
+        .then(snapshot => {
+          navigation.navigate('confirmation', {
+            orders: values,
+            status: 'success',
+            message: 'Order Place successfully. Thank you ',
+          });
+          dispatch(clearCart());
+        })
+        .catch(err => {
+          navigation.navigate('confirmation', {
+            orders: values,
+            status: 'failed',
+            message: err,
+          });
+        });
+    }
+  };
 
   const {totalFCPrice, savedAmount, totalMRPPrice} = getAggregatedPrices();
 

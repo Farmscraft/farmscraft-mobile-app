@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import _ from 'lodash';
 
 export const getHomeData = () => {
   return firestore()
@@ -41,4 +42,17 @@ export const getSubCategoryData = subCatID => {
     .doc(subCatID);
 
   return subCatRef.collection('items').get();
+};
+
+export const placeOrder = async items => {
+  const orderRef = firestore().collection('orders');
+  let orders = {};
+  const promises = _.map(items, async item => {
+    const res = await orderRef.add(item);
+    orders['id'] = res.id;
+    return res;
+  });
+
+  await Promise.all(promises);
+  return orders;
 };

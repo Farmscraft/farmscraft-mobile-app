@@ -226,11 +226,11 @@ const ImageContainer = ({
   return (
     <View style={styles.productItemImageContainer}>
       <ImageBackground source={{uri: `${defImage}`}} style={styles.image}>
-        <View style={styles.productCategoryWrapper}>
-          {category ? (
+        {category ? (
+          <View style={styles.productCategoryWrapper}>
             <Text style={styles.categoryText}>{`${category}`}</Text>
-          ) : null}
-        </View>
+          </View>
+        ) : null}
       </ImageBackground>
     </View>
   );

@@ -17,6 +17,7 @@ import WishlistScreen from '../pages/Wishlist/MyWishlist';
 import ProductList from '../pages/Product/ProductList';
 import EditProfile from '../pages/Account/EditProfile';
 import Address from '../pages/Address/AddressDetails';
+import Confirmation from '../pages/Cart/Confirmation';
 
 // CartIconWithBadge
 import CartIconWithBadge from '../pages/CartBadge/CartBadge';
@@ -217,6 +218,21 @@ function HomeNavigation() {
           header: props => (
             <Header
               title={'Address'}
+              backIcon={true}
+              searchIcon={false}
+              {...props}
+            />
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name={'confirmation'}
+        component={Confirmation}
+        options={{
+          header: props => (
+            <Header
+              title={'Order confirmation'}
               backIcon={true}
               searchIcon={false}
               {...props}
