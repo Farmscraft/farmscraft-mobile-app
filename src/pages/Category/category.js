@@ -1,99 +1,53 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  ImageBackground,
-  Text,
-} from 'react-native';
+import {View, FlatList, ActivityIndicator} from 'react-native';
+import CategoryContainer from '../Common/categoryContainer';
 
 import {getHomeData} from '../../firebase/firebase';
 
-const CategoryItem = ({item, onPress}) => {
-  const {categoryID, title, catImage} = item;
-  return (
-    <TouchableOpacity
-      style={styles.item}
-      key={categoryID}
-      onPress={() => onPress(item)}>
-      <ImageBackground source={{uri: catImage}} style={styles.image} />
-    </TouchableOpacity>
-  );
-};
-
 const Category = props => {
-  const [banners, setCategoryBanner] = useState([]);
-
-  const onPressHandler = item => {
-    props.navigation.navigate('home', {category: item});
-  };
-
+  const [state, setState] = useState({});
   useEffect(() => {
     getHomeData()
       .then(snapshot => {
-        const response = [];
+        const response = {};
         snapshot.forEach(snap => {
           if (snap.id !== 'banners') {
-            const {catImage, categoryID, title} = snap.data();
-            response.push({catImage, categoryID, title});
+            response[snap.id] = snap.data();
           }
         });
-        setCategoryBanner(response);
+        setState(response);
       })
       .catch(err => {});
   }, []);
 
+  const onPressItemHandler = item => {
+    props.navigation.navigate('productList', {subCatItem: item});
+  };
+
+  const renderItem = ({item, index}) => {
+    return (
+      <CategoryContainer
+        category={item}
+        onPressItem={onPressItemHandler}
+        key={index}
+      />
+    );
+  };
+
+  if (!Object.values(state).length) {
+    return <ActivityIndicator size="large" color="#00ff00" />;
+  }
+
   return (
-    <ScrollView>
-      {banners.length ? (
-        <View style={styles.scrollView}>
-          {banners.map(item => (
-            <CategoryItem
-              item={item}
-              onPress={onPressHandler}
-              key={item['categoryID']}
-            />
-          ))}
-        </View>
-      ) : (
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            marginHorizontal: 15,
-          }}>
-          <Text style={{fontSize: 14, color: 'black', lineHeight: 18}}>
-            Your favourite items will display here. Add some item from product
-            liting page
-          </Text>
-        </View>
-      )}
-    </ScrollView>
+    <View>
+      <FlatList
+        data={Object.values(state)}
+        renderItem={renderItem}
+        keyExtractor={item => String(item.categoryID)}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  item: {
-    height: 170,
-    width: '100%',
-    marginBottom: 20,
-  },
-
-  scrollView: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    margin: 10,
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
-});
 
 export default Category;

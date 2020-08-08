@@ -48,7 +48,7 @@ export const placeOrder = async items => {
   const orderRef = firestore().collection('orders');
   let orders = {};
   const promises = _.map(items, async item => {
-    const res = await orderRef.add(item);
+    const res = await orderRef.set(item);
     orders['id'] = res.id;
     return res;
   });

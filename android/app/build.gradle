@@ -134,6 +134,7 @@ android {
     defaultConfig {
         applicationId "com.farmscraft"
         multiDexEnabled true
+        
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1000
