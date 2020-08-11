@@ -3,24 +3,56 @@ import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // common header
 import Header from '../components/header/header';
-
 // all tabs
 import HomeScreen from '../pages/Home/Home';
 import CategoryScreen from '../pages/Category/category';
 import CartScreen from '../pages/Cart/Cart';
 import UserAccountScreen from '../pages/Account/Account';
-import WishlistScreen from '../pages/Offers/Offers';
-
+import WishlistScreen from '../pages/Wishlist/MyWishlist';
 // other screen
-
 import ProductList from '../pages/Product/ProductList';
 import EditProfile from '../pages/Account/EditProfile';
 import Address from '../pages/Address/AddressDetails';
+import Confirmation from '../pages/Cart/Confirmation';
+
+// CartIconWithBadge
+import CartIconWithBadge from '../pages/CartBadge/CartBadge';
+
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const HomeStack = createStackNavigator();
+
+const HomeStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name={'Home'}
+      component={HomeScreen}
+      options={props => ({
+        header: () => getHeader(props),
+      })}
+    />
+
+    <HomeStack.Screen
+      name="productList"
+      component={ProductList}
+      options={{
+        header: props => (
+          <Header
+            title={'Product'}
+            backIcon={true}
+            searchIcon={true}
+            {...props}
+          />
+        ),
+      }}
+    />
+  </HomeStack.Navigator>
+);
 
 import {
   BOTTOM_TABS,
@@ -42,7 +74,7 @@ const ICON = {
 };
 
 const ROUTES = {
-  [HOME]: HomeScreen,
+  [HOME]: HomeStackScreen,
   [CATEGORIES]: CategoryScreen,
   [CART]: CartScreen,
   [WISHLIST]: WishlistScreen,
@@ -69,9 +101,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
-
 const BottomNavigation = ({navigation, route}) => {
   return (
     <Tab.Navigator
@@ -86,9 +115,13 @@ const BottomNavigation = ({navigation, route}) => {
           key={el}
           options={{
             tabBarLabel: el,
-            tabBarIcon: ({color, size}) => (
-              <Icon name={ICON[el]} size={size} color={color} />
-            ),
+            tabBarIcon: ({color, size}) => {
+              return el === 'Cart' ? (
+                <CartIconWithBadge name={ICON[el]} size={size} color={color} />
+              ) : (
+                <Icon name={ICON[el]} size={size} color={color} />
+              );
+            },
           }}
           name={el}
           component={ROUTES[el]}
@@ -164,21 +197,6 @@ function HomeNavigation() {
       />
 
       <Stack.Screen
-        name="productList"
-        component={ProductList}
-        options={{
-          header: props => (
-            <Header
-              title={'Product'}
-              backIcon={true}
-              searchIcon={true}
-              {...props}
-            />
-          ),
-        }}
-      />
-
-      <Stack.Screen
         name={EDIT_PROFILE}
         component={EditProfile}
         options={{
@@ -200,6 +218,21 @@ function HomeNavigation() {
           header: props => (
             <Header
               title={'Address'}
+              backIcon={true}
+              searchIcon={false}
+              {...props}
+            />
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name={'confirmation'}
+        component={Confirmation}
+        options={{
+          header: props => (
+            <Header
+              title={'Order confirmation'}
               backIcon={true}
               searchIcon={false}
               {...props}

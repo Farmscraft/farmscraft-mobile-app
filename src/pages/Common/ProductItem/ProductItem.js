@@ -10,6 +10,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../../../components/Counter/Counter';
 
+import {isNull} from '../../../helpers/helpers';
+
 const styles = StyleSheet.create({
   productItem: {
     flexDirection: 'row',
@@ -222,11 +224,11 @@ const ImageContainer = ({
   return (
     <View style={styles.productItemImageContainer}>
       <ImageBackground source={{uri: `${defImage}`}} style={styles.image}>
-        <View style={styles.productCategoryWrapper}>
-          {category ? (
+        {!isNull(category) ? (
+          <View style={styles.productCategoryWrapper}>
             <Text style={styles.categoryText}>{`${category}`}</Text>
-          ) : null}
-        </View>
+          </View>
+        ) : null}
       </ImageBackground>
     </View>
   );
@@ -262,7 +264,7 @@ const TitleContainer = ({
           <Icon
             name={'favorite'}
             size={24}
-            color={markedFavorite ? '' : '#989898'}
+            color={markedFavorite ? '#EA3C53' : '#989898'}
           />
         </TouchableOpacity>
       </View>
@@ -303,7 +305,7 @@ const PriceContainer = ({fcPrice, mrpPrice}) => {
 };
 
 const AddContainer = ({quantity, handleOnSubstract, handleOnAdd, item}) => {
-  if (quantity) {
+  if (!isNull(quantity) && quantity != 0) {
     return (
       <View style={{marginHorizontal: 5}}>
         <Counter
@@ -315,7 +317,9 @@ const AddContainer = ({quantity, handleOnSubstract, handleOnAdd, item}) => {
     );
   }
   return (
-    <TouchableOpacity style={styles.addItemContainer} onPress={handleOnAdd}>
+    <TouchableOpacity
+      style={styles.addItemContainer}
+      onPress={() => handleOnAdd(item, 0)}>
       <View style={styles.addBox}>
         <Text style={styles.addText}>{'ADD'}</Text>
       </View>

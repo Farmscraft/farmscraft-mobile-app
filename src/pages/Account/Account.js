@@ -44,6 +44,7 @@ const ProfileComponent = ({onPress, user}) => {
 
 const Item = ({item, onPress}) => {
   const {key, title, subTitle, icon} = item;
+
   return (
     <TouchableOpacity
       style={styles.item}
@@ -85,7 +86,7 @@ const Account = ({navigation}) => {
         />
         <View style={{marginVertical: 20}}>
           {accountItems.map(item => (
-            <Item item={item} onPress={onItemPressHandler} />
+            <Item item={item} onPress={onItemPressHandler} key={item.id} />
           ))}
         </View>
       </View>

@@ -2,4 +2,5 @@
 <resources>
     <color name="statusBarColor">#006666</color>
     <color name="appTheme">#008080</color>
+    <color name="ic_launcher_background">#b7de2a</color>
 </resources>

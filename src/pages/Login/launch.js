@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
-import logo from '../../assests/icons/ic_launcher.png';
+import {Image, StyleSheet, View} from 'react-native';
+import logo from '../../Images/ic_launcher.png';
 
 const Launch = () => {
   return (

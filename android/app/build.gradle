@@ -134,6 +134,7 @@ android {
     defaultConfig {
         applicationId "com.farmscraft"
         multiDexEnabled true
+        
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1000
@@ -149,17 +150,15 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-            }
+            storeFile file('farmscraftrelease.keystore')
+            keyAlias "farmcraftrelease"
+            storePassword "farmscraft"
+            keyPassword "farmscraft"
         }
         dev {
             storeFile file('farmscraftdev.keystore')
-            storePassword "farmscraft"
             keyAlias "farmscraftdev"
+            storePassword "farmscraft"
             keyPassword "farmscraft"
         }
     }
@@ -172,7 +171,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             matchingFallbacks = ['release', 'debug']
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"

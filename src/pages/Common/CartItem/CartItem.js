@@ -7,8 +7,8 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../../../components/Counter/Counter';
+import {isNull} from '../../../helpers/helpers';
 
 const styles = StyleSheet.create({
   productItem: {
@@ -226,11 +226,11 @@ const ImageContainer = ({
   return (
     <View style={styles.productItemImageContainer}>
       <ImageBackground source={{uri: `${defImage}`}} style={styles.image}>
-        <View style={styles.productCategoryWrapper}>
-          {category ? (
+        {!isNull(category) ? (
+          <View style={styles.productCategoryWrapper}>
             <Text style={styles.categoryText}>{`${category}`}</Text>
-          ) : null}
-        </View>
+          </View>
+        ) : null}
       </ImageBackground>
     </View>
   );
